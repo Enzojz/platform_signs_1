@@ -1,7 +1,6 @@
 ﻿function data()
     return {
         info = {
-            minorVersion = 10,
             severityAdd = "NONE",
             severityRemove = "CRITICAL",
             name = _("name"),
@@ -10,12 +9,12 @@
                 {
                     name = "Enzojz",
                     role = "CREATOR",
-                    text = "Idea, Scripting, Modeling",
+                    text = "Idea, Scripting, Modeling, Textures",
                     steamProfile = "enzojz",
                     tfnetId = 27218,
                 }
             },
-            tags = {"Train Station", "Station"},
+            tags = {"Track Asset", "Asset"},
         },
     }
 end

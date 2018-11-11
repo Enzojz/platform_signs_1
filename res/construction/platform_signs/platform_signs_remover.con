@@ -55,8 +55,8 @@ function data()
     return {
         type = "RAIL_DEPOT",
         description = {
-            name = _("Platform Sign - Remover"),
-            description = _("")
+            name = _("Platform Sign Remover"),
+            description = _("Use this tool to remove already built platform signs, the effective zones are R500m circles around any un-finished platform signs.")
         },
         buildMode = "SINGLE",
         categories = {"misc"},

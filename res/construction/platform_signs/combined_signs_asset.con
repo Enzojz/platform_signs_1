@@ -19,7 +19,7 @@ local updateFn = function(params)
     
     local d = (params.distance and ((params.distance + 1) * 0.5 + 2) or 4.5) * (params.distanceSign == 0 and -1 or 1)
     local h = 0.25 + (params.height or 0) * 0.1 * (params.heightSign == 0 and -1 or 1)
-    local o = (params.offset or 0) * (params.offsetSign == 0 and -1 or 1)
+    local o = (params.offset or 0) * (({-3, -2, -1, 1, 2, 3})[params.offsetSign + 1])
     
     local trans = (params.orientation == 0 and coor.rotZ(pi * 0.5) or coor.I()) * coor.trans(coor.xyz(o, -d, h + 0.8))
     local transBoard = coor.trans(coor.xyz(0, -0.035, 2.25))
@@ -79,7 +79,7 @@ local updateFn = function(params)
                             local m, width = sign(text)
                             local trans = (#t == 1 and coor.I() or coor.transX((0.5 * width + 0.1) * (col == 1 and -1 or 1))) * transZ * trans
                             return pipe.new
-                                / (#t > 1 and params.poleType ~= 2 and newModel(pole .. "_arm.mdl", col == 1 and coor.rotZ(pi) or coor.I(), coor.transZ(2.5), trans) or nil)
+                                / (#t > 1 and newModel(pole .. "_arm.mdl", col == 1 and coor.rotZ(pi) or coor.I(), coor.transZ(2.5), trans) or nil)
                                 + m * pipe.map(function(m) return func.with(m, {transf = m.transf * trans}) end)
                                 + m * pipe.map(function(m) return func.with(m, {transf = m.transf * coor.rotZ(pi) * trans}) end)
                         else
@@ -87,7 +87,7 @@ local updateFn = function(params)
                         end
                     end)
                     * pipe.flatten()
-                    / (#t > 1 and params.poleType ~= 2 and newModel(pole .. "_attach.mdl", coor.transZ(2.5), transZ, trans) or nil)
+                    / (#t > 1 and newModel(pole .. "_attach.mdl", coor.transZ(2.5), transZ, trans) or nil)
             else
                 return {}
             end

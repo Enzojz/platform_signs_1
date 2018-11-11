@@ -19,7 +19,7 @@ local updateFn = function(params)
     local nameModelsF, width = table.unpack({livetext(0.35)(params.text and (params.case == 1 and params.text:upper() or params.text) or "?")} or {})
     local d = (params.distance and ((params.distance + 1) * 0.5 + 2) or 4.5) * (params.distanceSign == 0 and -1 or 1)
     local h = (params.height or 0) * 0.1 * (params.heightSign == 0 and -1 or 1)
-    local o = (params.offset or 0) * (params.offsetSign == 0 and -1 or 1)
+    local o = (params.offset or 0) * (({-3, -2, -1, 1, 2, 3})[params.offsetSign + 1])
     
     local trans = (params.orientation == 0 and coor.rotZ(pi * 0.5) or coor.I()) * coor.trans(coor.xyz(o, -d, h + 0.8))
     local transBoard = coor.trans(coor.xyz(0, -0.035, 2.25))

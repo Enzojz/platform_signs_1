@@ -88,8 +88,8 @@ function data()
     return {
         type = "RAIL_DEPOT",
         description = {
-            name = _("Platform Sign - Finalizer"),
-            description = _("")
+            name = _("Platform Sign Finalizer"),
+            description = _("Use this finalizer to inject text on station name signs or combined signs.")
         },
         buildMode = "SINGLE",
         categories = {"misc"},

@@ -7,8 +7,8 @@ function data()
     return {
         type = "RAIL_DEPOT",
         description = {
-            name = _("Platform Sign - Combined Signs"),
-            description = _("")
+            name = _("Combined Signs"),
+            description = _("Individual or combined platform signs, with customizable text and styles, use finalizer to inject texts.")
         },
         buildMode = "SINGLE",
         categories = {"misc"},
@@ -84,8 +84,8 @@ function data()
             {
                 key = "offsetSign",
                 name = "",
-                values = {"-", "+"},
-                defaultIndex = 0,
+                values = {"-3", "-2", "-1", "+1", "+2", "+3"},
+                defaultIndex = 2,
             },
             {
                 key = "offset",
