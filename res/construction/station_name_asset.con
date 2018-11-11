@@ -1,0 +1,103 @@
+local livetext = require "livetext"
+local coor = require "livetext/coor"
+local pipe = require "livetext/pipe"
+local func = require "livetext/func"
+
+local unpack = table.unpack
+
+local newModel = function(m, ...)
+    return {
+        id = m,
+        transf = coor.mul(...)
+    }
+end
+
+local updateFn = function(params)
+    local font = params.font == 1 and "alte_din_1451_mittelschrift" or "lato"
+    local color = params.style == 0 and "CFFFFFF" or "C000000"
+    local livetext = livetext(font, params.weight == 1 and params.font == 0 and "bold", color)
+    local nameModelsF, width = table.unpack({livetext(0.35)(params.text and (params.case == 1 and params.text:upper() or params.text) or "?")} or {})
+    local d = params.distance and ((params.distance + 1) * 0.5 + 2) or 4.5
+    local h = params.height and (params.height - 5) * 0.1 or 0
+    local o = params.offset and (params.offset - 10) * 2 or 0
+    
+    local trans = (params.orientation == 0 and coor.rotZ(pi * 0.5) or coor.I()) * coor.trans(coor.xyz(o, -d, h + 0.8))
+    local transBoard = coor.trans(coor.xyz(0, -0.035, 2.25))
+    local subfix = params.style == 0 and ".mdl" or "_white.mdl"
+    
+    local face =
+        pipe.new
+        / newModel("platform_signs/platform_signs" .. subfix,
+            coor.scale(coor.xyz(width, 1, 1)),
+            transBoard
+        )
+        / newModel("platform_signs/platform_signs_left" .. subfix,
+            transBoard,
+            coor.transX(-width * 0.5)
+        )
+        / newModel("platform_signs/platform_signs_right" .. subfix,
+            transBoard,
+            coor.transX(width * 0.5)
+        )
+        + nameModelsF(function(w) return transBoard * coor.trans(coor.xyz(-0.5 * w, -0.055, 0.175 * 3 / 4)) end)
+        + (params.outline == 1
+        and {
+            newModel("platform_signs/platform_signs_outline_" .. color .. ".mdl",
+                coor.scale(coor.xyz(width, 1, 1)),
+                transBoard,
+                coor.transY(-0.055)
+            ),
+            newModel("platform_signs/platform_signs_outline_left_" .. color .. ".mdl",
+                transBoard,
+                coor.transY(-0.055),
+                coor.transX(-width * 0.5)
+            ),
+            newModel("platform_signs/platform_signs_outline_right_" .. color .. ".mdl",
+                transBoard,
+                coor.transY(-0.055),
+                coor.transX(width * 0.5)
+        )
+        }
+        or {}
+    )
+    local models = pipe.new
+        / (params.poleType ~= 2 and newModel(params.poleType == 1 and "platform_signs/pole_cuboid.mdl" or "platform_signs/pole_cylinder.mdl",
+            coor.scaleZ((3.3 + h) / 2.5) * coor.trans(coor.xyz(o, -d, 0))
+        ) or nil)
+        + face * pipe.map(function(m) return func.with(m, {transf = m.transf * trans}) end)
+        + face * pipe.map(function(m) return func.with(m, {transf = m.transf * coor.rotZ(pi) * trans}) end)
+    
+    return {
+        models = models,
+        cost = 0,
+        bulldozeCost = 0,
+        maintenanceCost = 0,
+        terrainAlignmentLists = {
+            {
+                type = "EQUAL",
+                faces = {}
+            }
+        }
+    }
+end
+
+function data()
+    return {
+        type = "ASSET_TRACK",
+        description = {
+            name = _("Platform Sign - Station Name Asset"),
+            description = _("")
+        },
+        buildMode = "MULTI",
+        categories = {"misc"},
+        availability = {
+            yearFrom = 1800,
+            yearTo = 1800,
+        },
+        order = 5009,
+        skipCollision = true,
+        autoRemovable = false,
+        params = {},
+        updateFn = updateFn
+    }
+end

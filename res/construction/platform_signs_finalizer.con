@@ -1,0 +1,106 @@
+local livetext = require "livetext"
+local coor = require "livetext/coor"
+local pipe = require "livetext/pipe"
+local func = require "livetext/func"
+
+local unpack = table.unpack
+
+local pureParams = function(pa)
+    local params = {}
+    for key, value in pairs(pa) do
+        if (key ~= "seed") then
+            params[key] = value
+        end
+    end
+    return params
+end
+
+local decode = function(str)
+    local function convert(chs, row, line, c, ...)
+        if (c == 44) then
+            return convert(pipe.new, row / chs, line, ...)
+        elseif (c == 124) then
+            return convert(pipe.new, pipe.new, line / (row / chs), ...)
+        elseif (c == nil) then
+            local line = line / (row / chs)
+            return line
+                * pipe.map(pipe.map(function(chs) return string.char(unpack(chs)) end))
+                * pipe.map(pipe.map(function(ch) return #ch > 0 and ch end))
+                * pipe.map(function(row) return #row > 0 and row end)
+        else
+            return convert(chs / c, row, line, ...)
+        end
+    end
+    return str and convert(pipe.new, pipe.new, pipe.new, str:byte(1, -1))
+end
+
+local updateFn = function(params)
+    local _ =
+        pipe.new
+        * game.interface.getEntities({pos = {0, 0}, radius = 900000})
+        * pipe.map(game.interface.getEntity)
+        * pipe.filter(function(data) return data.fileName and string.match(data.fileName, "station_name.con") end)
+        * pipe.map(function(data)
+            local pos = coor.xy(unpack(data.position))
+            local station = data.name:match("#(.+)") or (pipe.new
+                * game.interface.getEntities({pos = data.position, radius = 300}, {type = "STATION", includeData = false})
+                * pipe.map(game.interface.getEntity)
+                * pipe.sort(function(l, r) return coor.xy(unpack(l.position) - pos):length() < coor.xy(unpack(r.position) - pos):length() end)
+                * pipe.select(1)
+                * pipe.select("name")
+            )
+            return {sign = data, station = station}
+        end)
+        * pipe.filter(pipe.select("station"))
+        * pipe.forEach(function(data)
+            game.interface.bulldoze(data.sign.id)
+            local id = game.interface.buildConstruction(
+                "station_name_asset.con",
+                func.with(pureParams(data.sign.params), {text = data.station}),
+                data.sign.transf
+        )
+        end)
+    
+    local _ =
+        pipe.new
+        * game.interface.getEntities({pos = {0, 0}, radius = 900000})
+        * pipe.map(game.interface.getEntity)
+        * pipe.filter(function(data) return data.fileName and string.match(data.fileName, "combined_signs.con") end)
+        * pipe.map(function(data)
+            local pos = coor.xy(unpack(data.position))
+            local texts = decode(data.name:match("#(.+)"))
+            return {sign = data, station = texts}
+        end)
+        * pipe.filter(pipe.select("station"))
+        * pipe.forEach(function(data)
+            game.interface.bulldoze(data.sign.id)
+            local id = game.interface.buildConstruction(
+                "combined_signs_asset.con",
+                func.with(pureParams(data.sign.params), {texts = data.station}),
+                data.sign.transf
+        )
+        end)
+    local result = game.config.construction["station_name_asset.con"](func.with(params, {text = "?"}))
+    return result
+end
+
+function data()
+    return {
+        type = "RAIL_DEPOT",
+        description = {
+            name = _("Platform Sign - Finalizer"),
+            description = _("")
+        },
+        buildMode = "SINGLE",
+        categories = {"misc"},
+        availability = {
+            yearFrom = 0,
+            yearTo = 0,
+        },
+        order = 5009,
+        skipCollision = true,
+        autoRemovable = false,
+        params = {},
+        updateFn = updateFn
+    }
+end

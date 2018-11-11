@@ -1,0 +1,113 @@
+local livetext = require "livetext"
+local coor = require "livetext/coor"
+local pipe = require "livetext/pipe"
+local func = require "livetext/func"
+
+function data()
+    return {
+        type = "RAIL_DEPOT",
+        description = {
+            name = _("Platform Sign - Station Name"),
+            description = _("")
+        },
+        buildMode = "SINGLE",
+        categories = {"misc"},
+        availability = {
+            yearFrom = 0,
+            yearTo = 0,
+        },
+        order = 5009,
+        skipCollision = true,
+        autoRemovable = false,
+        params =
+        {
+            {
+                key = "font",
+                name = _("Font"),
+                values = {_("Default"), _("DIN 1451")},
+                defaultIndex = 0
+            },
+            {
+                key = "style",
+                name = _("Sign Color"),
+                values = {_("Blue"), _("White")},
+                defaultIndex = 0
+            },
+            {
+                key = "weight",
+                name = _("Text Weight"),
+                values = {_("Regular"), _("Bold")},
+                defaultIndex = 0
+            },
+            {
+                key = "case",
+                name = _("Upper case"),
+                values = {_("No"), _("Yes")},
+                defaultIndex = 0
+            },
+            {
+                key = "outline",
+                name = _("Outline"),
+                values = {_("No"), _("Yes")},
+                defaultIndex = 0
+            },
+            {
+                key = "poleType",
+                name = _("Pole Type"),
+                values = {_("Cylinder"), _("Cuboid"), _("No Pole")},
+                defaultIndex = 1
+            },
+            {
+                key = "distance",
+                name = _("Distance to track"),
+                values = func.seqMap({1, 10}, function(i) return tostring(i * 0.5 + 2) end),
+                defaultIndex = 4
+            },
+            {
+                key = "height",
+                name = _("Height Adjustment"),
+                values = func.seqMap({-5, 5}, function(i) return tostring(i * 0.1) end),
+                defaultIndex = 5
+            },
+            {
+                key = "offset",
+                name = _("Offset Adjustment"),
+                values = func.seqMap({-10, 10}, function(i) return tostring(i * 2) end),
+                defaultIndex = 10
+            },
+            {
+                key = "orientation",
+                name = _("Orientation"),
+                values = {"X", "Y"},
+                defaultIndex = 1
+            },
+            {
+                key = "snap",
+                name = _("Track Snapping"),
+                values = {_("Yes"), _("No")},
+                defaultIndex = 0
+            }
+        },
+        updateFn = function(params)
+            local result = game.config.construction["station_name_asset.con"](func.with(params, {text = "?"}))
+            
+            if (params.snap == 0) then
+                result.edgeLists = {
+                    {
+                        type = "TRACK",
+                        params = {},
+                        edges = {
+                            {{-2.0, 0.0, 0.0}, {2.0, 0.0, 0.0}},
+                            {{0.0, 0.0, 0.0}, {2.0, 0.0, 0.0}},
+                            {{0.0, 0.0, 0.0}, {2.0, 0.0, 0.0}},
+                            {{2.0, 0.0, 0.0}, {2.0, 0.0, 0.0}},
+                        },
+                        snapNodes = {0, 3}
+                    }
+                }
+            end
+            
+            return result
+        end
+    }
+end
