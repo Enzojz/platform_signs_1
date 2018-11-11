@@ -7,7 +7,7 @@ function data()
     return {
         type = "RAIL_DEPOT",
         description = {
-            name = _("Platform Sign - Combined Signs"),
+            name = _("Platform Sign - Station Name"),
             description = _("")
         },
         buildMode = "SINGLE",
@@ -16,7 +16,7 @@ function data()
             yearFrom = 0,
             yearTo = 0,
         },
-        order = 5009,
+        order = 27225,
         skipCollision = true,
         autoRemovable = false,
         params =
@@ -58,22 +58,40 @@ function data()
                 defaultIndex = 1
             },
             {
+                key = "distanceSign",
+                name = "",
+                values = {"-", "+"},
+                defaultIndex = 0,
+            },
+            {
                 key = "distance",
                 name = _("Distance to track"),
                 values = func.seqMap({1, 10}, function(i) return tostring(i * 0.5 + 2) end),
                 defaultIndex = 4
             },
             {
+                key = "heightSign",
+                name = "",
+                values = {"-", "+"},
+                defaultIndex = 1,
+            },
+            {
                 key = "height",
                 name = _("Height Adjustment"),
-                values = func.seqMap({-5, 5}, function(i) return tostring(i * 0.1) end),
-                defaultIndex = 5
+                values = func.seqMap({0, 10}, function(i) return tostring(i * 0.1) end),
+                defaultIndex = 0
+            },
+            {
+                key = "offsetSign",
+                name = "",
+                values = {"-", "+"},
+                defaultIndex = 0,
             },
             {
                 key = "offset",
                 name = _("Offset Adjustment"),
-                values = func.seqMap({-10, 10}, function(i) return tostring(i * 2) end),
-                defaultIndex = 10
+                values = func.seqMap({0, 20}, tostring),
+                defaultIndex = 0
             },
             {
                 key = "orientation",
@@ -89,7 +107,7 @@ function data()
             }
         },
         updateFn = function(params)
-            local result = game.config.construction["combined_signs_asset.con"](func.with(params, {texts = {{"?", "?"}}}))
+            local result = game.config.construction["platform_signs/station_name_asset.con"](func.with(params, {text = "?"}))
             
             if (params.snap == 0) then
                 result.edgeLists = {

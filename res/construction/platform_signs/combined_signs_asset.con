@@ -17,9 +17,9 @@ local updateFn = function(params)
     local color = params.style == 0 and "CFFFFFF" or "C000000"
     local livetext = livetext(font, params.weight == 1 and params.font == 0 and "bold", color)
     
-    local d = params.distance and ((params.distance + 1) * 0.5 + 2) or 4.5
-    local h = params.height and (params.height - 5) * 0.1 or 0
-    local o = params.offset and (params.offset - 10) * 2 or 0
+    local d = (params.distance and ((params.distance + 1) * 0.5 + 2) or 4.5) * (params.distanceSign == 0 and -1 or 1)
+    local h = 0.25 + (params.height or 0) * 0.1 * (params.heightSign == 0 and -1 or 1)
+    local o = (params.offset or 0) * (params.offsetSign == 0 and -1 or 1)
     
     local trans = (params.orientation == 0 and coor.rotZ(pi * 0.5) or coor.I()) * coor.trans(coor.xyz(o, -d, h + 0.8))
     local transBoard = coor.trans(coor.xyz(0, -0.035, 2.25))

@@ -55,7 +55,7 @@ local updateFn = function(params)
         * pipe.forEach(function(data)
             game.interface.bulldoze(data.sign.id)
             local id = game.interface.buildConstruction(
-                "station_name_asset.con",
+                "platform_signs/station_name_asset.con",
                 func.with(pureParams(data.sign.params), {text = data.station}),
                 data.sign.transf
         )
@@ -75,12 +75,12 @@ local updateFn = function(params)
         * pipe.forEach(function(data)
             game.interface.bulldoze(data.sign.id)
             local id = game.interface.buildConstruction(
-                "combined_signs_asset.con",
+                "platform_signs/combined_signs_asset.con",
                 func.with(pureParams(data.sign.params), {texts = data.station}),
                 data.sign.transf
         )
         end)
-    local result = game.config.construction["station_name_asset.con"](func.with(params, {text = "?"}))
+    local result = game.config.construction["platform_signs/station_name_asset.con"](func.with(params, {text = "?"}))
     return result
 end
 
@@ -97,7 +97,7 @@ function data()
             yearFrom = 0,
             yearTo = 0,
         },
-        order = 5009,
+        order = 27227,
         skipCollision = true,
         autoRemovable = false,
         params = {},
