@@ -13,7 +13,7 @@ function data()
                 },
                 children = {
                     {
-                        id = "platform_signs/C000000/platform_signs_outline.msh",
+                        id = "platform_signs/platform_signs_outline.msh",
                         transf = {
                             1, 0, 0, 0, 
                             0, 1, 0, 0, 
@@ -27,7 +27,7 @@ function data()
                 events = {
                 
                 },
-                matConfigs = { {0} },
+                matConfigs = { {1} },
                 static = true,
                 visibleFrom = 0,
                 visibleTo = 2000,

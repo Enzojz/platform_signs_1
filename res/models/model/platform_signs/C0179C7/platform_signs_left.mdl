@@ -13,12 +13,12 @@ function data()
                 },
                 children = {
                     {
-                        id = "platform_signs/C000000/platform_signs_outline_left.msh",
+                        id = "platform_signs/platform_signs_left.msh",
                         transf = {
-                            -1, 0, 0, 0, 
+                            1, 0, 0, 0, 
                             0, 1, 0, 0, 
-                            0, 0, -1, 0, 
-                            0, 0, 0.5, 1,
+                            0, 0, 1, 0, 
+                            0, 0, 0, 1,
                         },
                         type = "MESH",
                     },
@@ -27,7 +27,7 @@ function data()
                 events = {
                 
                 },
-                matConfigs = { {0} },
+                matConfigs = { {3} },
                 static = true,
                 visibleFrom = 0,
                 visibleTo = 2000,

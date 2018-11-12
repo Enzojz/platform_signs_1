@@ -12,10 +12,39 @@ local newModel = function(m, ...)
     }
 end
 
+local signColorList = {
+    "CF2F2F2",
+    "C101727",
+    "C00257E",
+    "C0179C7"
+}
+
+local fontColorList = {
+    "C101727",
+    "C00257E",
+    "C0179C7",
+    "CF2F2F2",
+    "C000000"
+}
+
+local outlineColorList = {
+    "CF2F2F2",
+    "C101727",
+    "C00257E",
+    "C0179C7",
+    "C000000"
+}
+
 local updateFn = function(params)
     local font = params.font == 1 and "alte_din_1451_mittelschrift" or "lato"
-    local color = params.style == 0 and "CFFFFFF" or "C000000"
-    local livetext = livetext(font, params.weight == 1 and params.font == 0 and "bold", color)
+    
+    local signColor = signColorList[params.signColor + 1]
+    local textColor = params.textColor == 3
+        and (params.signColor == 0 and "C000000" or "CF2F2F2")
+        or fontColorList[params.textColor + 1]
+    local outlineColor = params.outlineColor == 5 and textColor or outlineColorList[params.outlineColor + 1]
+    
+    local livetext = livetext(font, params.weight == 1 and params.font == 0 and "bold", textColor)
     
     local d = (params.distance and ((params.distance + 1) * 0.5 + 2) or 4.5) * (params.distanceSign == 0 and -1 or 1)
     local h = 0.25 + (params.height or 0) * 0.1 * (params.heightSign == 0 and -1 or 1)
@@ -23,7 +52,6 @@ local updateFn = function(params)
     
     local trans = (params.orientation == 0 and coor.rotZ(pi * 0.5) or coor.I()) * coor.trans(coor.xyz(o, -d, h + 0.8))
     local transBoard = coor.trans(coor.xyz(0, -0.035, 2.25))
-    local subfix = params.style == 0 and ".mdl" or "_white.mdl"
     
     local pole = params.poleType == 1 and "platform_signs/pole_cuboid" or "platform_signs/pole_cylinder"
     
@@ -31,32 +59,32 @@ local updateFn = function(params)
         local nameModelsF, width = unpack({livetext(0.35)(text and (params.case == 1 and text:upper() or text) or "?")} or {})
         local width = width < 0.35 and 0 or width - 0.35
         return pipe.new
-            / (width > 0 and newModel("platform_signs/platform_signs" .. subfix,
+            / (width > 0 and newModel("platform_signs/" .. signColor .. "/platform_signs.mdl",
                 coor.scale(coor.xyz(width, 1, 1)),
                 transBoard
             ) or nil)
-            / newModel("platform_signs/platform_signs_left" .. subfix,
+            / newModel("platform_signs/" .. signColor .. "/platform_signs_left.mdl",
                 transBoard,
                 coor.transX(-width * 0.5)
             )
-            / newModel("platform_signs/platform_signs_right" .. subfix,
+            / newModel("platform_signs/" .. signColor .. "/platform_signs_right.mdl",
                 transBoard,
                 coor.transX(width * 0.5)
             )
             + nameModelsF(function(w) return transBoard * coor.trans(coor.xyz(-0.5 * w, -0.055, 0.175 * 3 / 4)) end)
             + (params.outline == 1
             and {
-                width > 0 and newModel("platform_signs/platform_signs_outline_" .. color .. ".mdl",
+                width > 0 and newModel("platform_signs/" .. outlineColor .. "/platform_signs_outline.mdl",
                     coor.scale(coor.xyz(width, 1, 1)),
                     transBoard,
                     coor.transY(-0.055)
                 ) or nil,
-                newModel("platform_signs/platform_signs_outline_left_" .. color .. ".mdl",
+                newModel("platform_signs/" .. outlineColor .. "/platform_signs_outline_left.mdl",
                     transBoard,
                     coor.transY(-0.055),
                     coor.transX(-width * 0.5)
                 ),
-                newModel("platform_signs/platform_signs_outline_right_" .. color .. ".mdl",
+                newModel("platform_signs/" .. outlineColor .. "/platform_signs_outline_right.mdl",
                     transBoard,
                     coor.transY(-0.055),
                     coor.transX(width * 0.5)

@@ -8,7 +8,7 @@ return {
 		},
 		map_albedo = {
 			compressionAllowed = true,
-			fileName = "models/platform_signs/platform_signs_face.dds",
+			fileName = "models/livetext/CFF00257E.dds",
 			magFilter = "LINEAR",
 			minFilter = "LINEAR_MIPMAP_LINEAR",
 			mipmapAlphaScale = 0,

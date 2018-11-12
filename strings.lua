@@ -27,8 +27,6 @@ You can hide off the poles to make signs combined on other poles.
 3. Remover
 The remove helps you removing finished signs, since the models will be broken into many pieces once finished. Place a new sign around the area to clean, and use the remover to remove finished signs.
 
-There are two color options in this mod: Black/White and White/Navy blue
-
 The font support comes with Livetext mod, there are two fonts supplied with Livetext mod: Lato (game build-in font) and Alte DIN 1451 Mittelschrift font which is free to use.
 
 The Livetext mod use unicode, the following charset are supported:

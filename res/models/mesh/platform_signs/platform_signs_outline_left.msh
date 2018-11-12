@@ -1,5 +1,5 @@
 function data() return
-    {animations = {}, matConfigs = {{0}},
+    {animations = {}, matConfigs = {{0}, {1}, {2}, {3}, {4}},
         subMeshes =
         {
             {
@@ -11,7 +11,13 @@ function data() return
                     uv0 = {count = 408, offset = 4896},
                 },
                 materials =
-                {"livetext/CFFFFFFFF.mtl"}
+                {
+                    "platform_signs/CF2F2F2.mtl",
+                    "platform_signs/C000000.mtl",
+                    "platform_signs/C101727.mtl",
+                    "platform_signs/C00257E.mtl",
+                    "platform_signs/C0179C7.mtl",
+                }
             }
         },
         vertexAttr =
