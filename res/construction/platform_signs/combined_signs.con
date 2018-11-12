@@ -60,14 +60,14 @@ function data()
             {
                 key = "textColor",
                 name = _("Text Color"),
-                values = {_("White"), _("D.Blue"), _("Blue"), _("S.Blue"), _("Black")},
-                defaultIndex = 4
+                values = {_("D.Blue"), _("Blue"), _("S.Blue"), _("Auto")},
+                defaultIndex = 3
             },
             {
                 key = "outlineColor",
                 name = _("Outline Color"),
-                values = {_("White"), _("D.Blue"), _("Blue"), _("S.Blue"), _("Black")},
-                defaultIndex = 4
+                values = {_("White"), _("D.Blue"), _("Blue"), _("S.Blue"), _("Black"), _("Text")},
+                defaultIndex = 5
             },
             {
                 key = "distanceSign",
