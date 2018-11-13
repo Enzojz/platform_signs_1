@@ -2,6 +2,7 @@ local livetext = require "livetext"
 local coor = require "livetext/coor"
 local pipe = require "livetext/pipe"
 local func = require "livetext/func"
+local ps = require "platform_signs"
 
 local unpack = table.unpack
 
@@ -36,6 +37,7 @@ local outlineColorList = {
 }
 
 local updateFn = function(params)
+    local params = ps.defaultParams(params)
     local font = params.font == 1 and "alte_din_1451_mittelschrift" or "lato"
     
     local signColor = signColorList[params.signColor + 1]

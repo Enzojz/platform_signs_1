@@ -15,41 +15,12 @@ end
 
 local unpack = table.unpack
 
-local pureParams = function(pa)
-    local params = {}
-    for key, value in pairs(pa) do
-        if (key ~= "seed") then
-            params[key] = value
-        end
-    end
-    return params
-end
-
-local decode = function(str)
-    local function convert(chs, row, line, c, ...)
-        if (c == 44) then
-            return convert(pipe.new, row / chs, line, ...)
-        elseif (c == 124) then
-            return convert(pipe.new, pipe.new, line / (row / chs), ...)
-        elseif (c == nil) then
-            local line = line / (row / chs)
-            return line
-                * pipe.map(pipe.map(function(chs) return string.char(unpack(chs)) end))
-                * pipe.map(pipe.map(function(ch) return #ch > 0 and ch end))
-                * pipe.map(function(row) return #row > 0 and row end)
-        else
-            return convert(chs / c, row, line, ...)
-        end
-    end
-    return str and convert(pipe.new, pipe.new, pipe.new, str:byte(1, -1))
-end
-
 local updateFn = function(params)
     local _ =
         pipe.new
         * game.interface.getEntities({pos = {0, 0}, radius = 900000})
         * pipe.map(game.interface.getEntity)
-        * pipe.filter(function(data) return data.fileName and string.match(data.fileName, "station_name.con") end)
+        * pipe.filter(function(data) return data.fileName and string.match(data.fileName, "platform_signs_remover.con") end)
         * pipe.forEach(function(data)
             local _ = pipe.new
                 * game.interface.getEntities({pos = data.position, radius = 300}, {type = "ASSET_GROUP", includeData = false})
@@ -57,7 +28,8 @@ local updateFn = function(params)
                 * pipe.filter(function(e) return 
                     e.models 
                     and #(keys(e.models) * pipe.filter(function(k) return k:match("platform_signs_left.mdl") end)) > 0 end)
-                * pipe.forEach(function(e)game.interface.bulldoze(e.id) end)
+                * pipe.forEach(function(e) game.interface.bulldoze(e.id) end)
+                game.interface.bulldoze(data.id)
         end)
     local result = game.config.construction["platform_signs/station_name_asset.con"](func.with(params, {text = "?"}))
     return result

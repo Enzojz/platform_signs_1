@@ -45,6 +45,8 @@ local updateFn = function(params)
             local station = data.name:match("#(.+)") or (pipe.new
                 * game.interface.getEntities({pos = data.position, radius = 300}, {type = "STATION", includeData = false})
                 * pipe.map(game.interface.getEntity)
+                * pipe.map(pipe.select("stationGroup"))
+                * pipe.map(game.interface.getEntity)
                 * pipe.sort(function(l, r) return coor.xy(unpack(l.position) - pos):length() < coor.xy(unpack(r.position) - pos):length() end)
                 * pipe.select(1)
                 * pipe.select("name")
