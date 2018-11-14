@@ -42,6 +42,11 @@ Attention: not all glyphs are present in DIN 1451 font
 To extend the charset to other languages or other fonts, for example CJK, a generator will be supplied later for Livetext mod. 
 
 Changelog
+1.2
+* Fixed crash when there's no station close to the sign
+* Fixed crash when there're more than one station close to the sign
+* Fixed incorrect station name injection when there is depot close to the sign
+* Chinese and French UI translations
 1.1
 * Fixed crashes linked to the params failure
 * Improved the materials
@@ -55,5 +60,63 @@ function data()
             ["name"] = "Platform Signs",
             ["desc"] = desc_EN,
         },
+        fr = {
+            ["name"] = "Panneau du Quai",
+            ["desc"] = desc_EN,
+            ["Font"] = "Police",
+            ["Text Weight"] = "Poids",
+            ["Upper case"] = "Majuscule",
+            ["Outline"] = "Contour",
+            ["Pole Type"] = "Type de pôle",
+            ["Sign Color"] = "Couleur du panneau",
+            ["Text Color"] = "Couleur des caractères",
+            ["Outline Color"] = "Couleur du contour",
+            ["Distance to track"] = "Distance vers la voie d'aide",
+            ["Height Adjustment"] = "Ajustement d'hauteur",
+            ["Offset Adjustment"] = "Décalage",
+            ["Orientation"] = "Orientation",
+            ["Default"] = "Défault",
+            ["Regular"] = "Ordinaire",
+            ["Bold"] = "Gras",
+            ["Cylinder"] = "Cylindre",
+            ["Prism"] = "Prisme",
+            ["No Pole"] = "Sans",
+            ["White"] = "Blanc",
+            ["D.Blue"] = "Marine",
+            ["Blue"] = "Bleu",
+            ["Azur"] = "Azure",
+            ["Black"] = "Noir",
+            ["Text"] = "Script",
+            ["Track Snapping"] = "Voie d'aide magnétique"
+        },
+        zh_CN = {
+            ["name"] = "站台牌",
+            ["desc"] = desc_EN,
+            ["Font"] = "字体",
+            ["Text Weight"] = "字重",
+            ["Upper case"] = "全大写",
+            ["Outline"] = "外廓线",
+            ["Pole Type"] = "支撑杆类型",
+            ["Sign Color"] = "站牌颜色",
+            ["Text Color"] = "文字颜色",
+            ["Outline Color"] = "外廓线颜色",
+            ["Distance to track"] = "到辅助轨道距离",
+            ["Height Adjustment"] = "高度调整",
+            ["Offset Adjustment"] = "平移调整",
+            ["Orientation"] = "指向",
+            ["Track Snapping"] = "辅助吸附轨道",
+            ["Default"] = "默认",
+            ["Regular"] = "普通",
+            ["Bold"] = "粗体",
+            ["Cylinder"] = "圆柱",
+            ["Prism"] = "方柱",
+            ["No Pole"] = "无",
+            ["White"] = "白色",
+            ["D.Blue"] = "海蓝",
+            ["Blue"] = "蓝色",
+            ["Azur"] = "天蓝",
+            ["Black"] = "黑色",
+            ["Text"] = "文字",
+        }
     }
 end

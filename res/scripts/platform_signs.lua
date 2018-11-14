@@ -33,25 +33,25 @@ ps.params = function()
         {
             key = "poleType",
             name = _("Pole Type"),
-            values = {_("Cylinder"), _("Cuboid"), _("No Pole")},
+            values = {_("Cylinder"), _("Prism"), _("No Pole")},
             defaultIndex = 1
         },
         {
             key = "signColor",
             name = _("Sign Color"),
-            values = {_("White"), _("D.Blue"), _("Blue"), _("S.Blue")},
+            values = {_("White"), _("D.Blue"), _("Blue"), _("Azur")},
             defaultIndex = 0
         },
         {
             key = "textColor",
             name = _("Text Color"),
-            values = {_("D.Blue"), _("Blue"), _("S.Blue"), _("Auto")},
+            values = {_("D.Blue"), _("Blue"), _("Azur"), _("Auto")},
             defaultIndex = 3
         },
         {
             key = "outlineColor",
             name = _("Outline Color"),
-            values = {_("White"), _("D.Blue"), _("Blue"), _("S.Blue"), _("Black"), _("Text")},
+            values = {_("White"), _("D.Blue"), _("Blue"), _("Azur"), _("Black"), _("Text")},
             defaultIndex = 5
         },
         {
