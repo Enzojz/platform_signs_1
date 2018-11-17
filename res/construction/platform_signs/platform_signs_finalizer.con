@@ -42,22 +42,25 @@ local updateFn = function(params)
         * pipe.filter(function(data) return data.fileName and string.match(data.fileName, "station_name.con") end)
         * pipe.map(function(data)
             local pos = coor.xy(unpack(data.position))
-            local station = data.name:match("^#(.+)") or (pipe.new
+            local station = data.name:match("^#([^@]+)") or pipe.exec * function() 
+                local s = pipe.new
                 * game.interface.getEntities({pos = data.position, radius = 500}, {type = "STATION", includeData = false})
                 * pipe.map(game.interface.getEntity)
                 * pipe.map(pipe.select("stationGroup"))
                 * pipe.map(game.interface.getEntity)
                 * pipe.sort(function(l, r) return (coor.xy(unpack(l.position)) - pos):length() < (coor.xy(unpack(r.position)) - pos):length() end)
                 * pipe.select(1)
-            )
-            return {sign = data, station = station}
+                return s and s.name
+            end
+            local stripWord = data.name:match("@(.+)")
+            return {sign = data, station = station, remark = stripWord}
         end)
         * pipe.filter(pipe.select("station"))
         * pipe.forEach(function(data)
             game.interface.bulldoze(data.sign.id)
             local id = game.interface.buildConstruction(
-                "platform_signs/station_name_asset.con",
-                func.with(pureParams(data.sign.params), {text = data.station}),
+                data.sign.fileName:match("^(.+).con") .. "_asset.con",
+                func.with(pureParams(data.sign.params), {text = data.station, remark = data.remark}),
                 data.sign.transf
         )
         end)
@@ -76,7 +79,7 @@ local updateFn = function(params)
         * pipe.forEach(function(data)
             game.interface.bulldoze(data.sign.id)
             local id = game.interface.buildConstruction(
-                "platform_signs/combined_signs_asset.con",
+                data.sign.fileName:match("^(.+).con") .. "_asset.con",
                 func.with(pureParams(data.sign.params), {texts = data.station}),
                 data.sign.transf
         )
@@ -98,7 +101,7 @@ function data()
             yearFrom = 0,
             yearTo = 0,
         },
-        order = 27227,
+        order = 27229,
         skipCollision = true,
         autoRemovable = false,
         params = {},

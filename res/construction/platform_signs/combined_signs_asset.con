@@ -28,7 +28,7 @@ local fontColorList = {
     "C000000"
 }
 
-local outlineColorList = {
+local decoColorList = {
     "CF2F2F2",
     "C101727",
     "C00257E",
@@ -44,9 +44,9 @@ local updateFn = function(params)
     local textColor = params.textColor == 3
         and (params.signColor == 0 and "C000000" or "CF2F2F2")
         or fontColorList[params.textColor + 1]
-    local outlineColor = params.outlineColor == 5 and textColor or outlineColorList[params.outlineColor + 1]
+    local decoColor = params.decoColor == 5 and textColor or decoColorList[params.decoColor + 1]
     
-    local livetext = livetext(font, params.weight == 1 and params.font == 0 and "bold", textColor)
+    local livetext = livetext(font, params.weight == 1 and "bold", textColor)
     
     local d = (params.distance and ((params.distance + 1) * 0.5 + 2) or 4.5) * (params.distanceSign == 0 and -1 or 1)
     local h = 0.25 + (params.height or 0) * 0.1 * (params.heightSign == 0 and -1 or 1)
@@ -73,20 +73,26 @@ local updateFn = function(params)
                 transBoard,
                 coor.transX(width * 0.5)
             )
+            / (params.deco == 2
+            and newModel("platform_signs/" .. decoColor .. "/platform_signs_strip.mdl",
+                    coor.scale(coor.xyz(width + 0.485, 1, 1)),
+                    transBoard,
+                    coor.trans(coor.xyz(0, -0.055, 0.01))
+            ) or nil)
             + nameModelsF(function(w) return transBoard * coor.trans(coor.xyz(-0.5 * w, -0.055, 0.175 * 3 / 4)) end)
-            + (params.outline == 1
+            + (params.deco == 1
             and {
-                width > 0 and newModel("platform_signs/" .. outlineColor .. "/platform_signs_outline.mdl",
+                width > 0 and newModel("platform_signs/" .. decoColor .. "/platform_signs_outline.mdl",
                     coor.scale(coor.xyz(width, 1, 1)),
                     transBoard,
                     coor.transY(-0.055)
                 ) or nil,
-                newModel("platform_signs/" .. outlineColor .. "/platform_signs_outline_left.mdl",
+                newModel("platform_signs/" .. decoColor .. "/platform_signs_outline_left.mdl",
                     transBoard,
                     coor.transY(-0.055),
                     coor.transX(-width * 0.5)
                 ),
-                newModel("platform_signs/" .. outlineColor .. "/platform_signs_outline_right.mdl",
+                newModel("platform_signs/" .. decoColor .. "/platform_signs_outline_right.mdl",
                     transBoard,
                     coor.transY(-0.055),
                     coor.transX(width * 0.5)

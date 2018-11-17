@@ -28,7 +28,7 @@ local fontColorList = {
     "C000000"
 }
 
-local outlineColorList = {
+local decoColorList = {
     "CF2F2F2",
     "C101727",
     "C00257E",
@@ -44,9 +44,12 @@ local updateFn = function(params)
     local textColor = params.textColor == 3
         and (params.signColor == 0 and "C000000" or "CF2F2F2")
         or fontColorList[params.textColor + 1]
-    local outlineColor = params.outlineColor == 5 and textColor or outlineColorList[params.outlineColor + 1]
+    local decoColor = params.decoColor == 5 and textColor or decoColorList[params.decoColor + 1]
     
-    local livetext = livetext(font, params.weight == 1 and params.font == 0 and "bold", textColor)
+    local stripSize = (params.deco == 2 or params.remark) and 0.1 or 0
+    local stripHeight = (params.deco == 2 or params.remark) and 0.01 or 0
+
+    local livetext = livetext(font, params.weight == 1 and "bold", textColor)
     local nameModelsF, width = table.unpack({livetext(0.35)(params.text and (params.case == 1 and params.text:upper() or params.text) or "?")} or {})
     local d = (params.distance and ((params.distance + 1) * 0.5 + 2) or 4.5) * (params.distanceSign == 0 and -1 or 1)
     local h = (params.height or 0) * 0.1 * (params.heightSign == 0 and -1 or 1)
@@ -69,20 +72,26 @@ local updateFn = function(params)
             transBoard,
             coor.transX(width * 0.5)
         )
-        + nameModelsF(function(w) return transBoard * coor.trans(coor.xyz(-0.5 * w, -0.055, 0.175 * 3 / 4)) end)
-        + (params.outline == 1
+        / (params.deco == 2
+        and newModel("platform_signs/" .. decoColor .. "/platform_signs_strip.mdl",
+                coor.scale(coor.xyz(width + 0.485, 1, 1)),
+                transBoard,
+                coor.trans(coor.xyz(0, -0.055, stripHeight))
+        ) or nil)
+        + nameModelsF(function(w) return transBoard * coor.trans(coor.xyz(-0.5 * w, -0.055, (stripHeight + stripSize) * 0.5 + 0.175 * 3 / 4)) end)
+        + (params.deco == 1
         and {
-            newModel("platform_signs/" .. outlineColor .. "/platform_signs_outline.mdl",
+            newModel("platform_signs/" .. decoColor .. "/platform_signs_outline.mdl",
                 coor.scale(coor.xyz(width, 1, 1)),
                 transBoard,
                 coor.transY(-0.055)
             ),
-            newModel("platform_signs/" .. outlineColor .. "/platform_signs_outline_left.mdl",
+            newModel("platform_signs/" .. decoColor .. "/platform_signs_outline_left.mdl",
                 transBoard,
                 coor.transY(-0.055),
                 coor.transX(-width * 0.5)
             ),
-            newModel("platform_signs/" .. outlineColor .. "/platform_signs_outline_right.mdl",
+            newModel("platform_signs/" .. decoColor .. "/platform_signs_outline_right.mdl",
                 transBoard,
                 coor.transY(-0.055),
                 coor.transX(width * 0.5)
@@ -91,9 +100,14 @@ local updateFn = function(params)
         or {}
     )
     local models = pipe.new
-        / (params.poleType ~= 2 and newModel(params.poleType == 1 and "platform_signs/pole_cuboid.mdl" or "platform_signs/pole_cylinder.mdl",
-            coor.scaleZ((3.3 + h) / 2.5) * coor.trans(coor.xyz(o, -d, 0))
-        ) or nil)
+        + pipe.new /
+        {0} / {width * 0.5 + 0.15, -width * 0.5 - 0.15} / {}
+        * pipe.select(params.poleCount + 1)
+        * pipe.map(function(p)
+            return newModel(params.poleType == 1 and "platform_signs/pole_cuboid.mdl" or "platform_signs/pole_cylinder.mdl",
+                coor.scaleZ((3.3 + h) / 2.5) * coor.trans(coor.xyz(o + p, -d, 0))
+        )
+        end)
         + face * pipe.map(function(m) return func.with(m, {transf = m.transf * trans}) end)
         + face * pipe.map(function(m) return func.with(m, {transf = m.transf * coor.rotZ(pi) * trans}) end)
     

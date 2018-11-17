@@ -1,7 +1,7 @@
 local desc_EN = [[Platform Signs is a mod to demostrate the Livetext mod, which permets any mods to put dynamically generated text on game scene.
 Though, this mod is still a very interesting one to use mod.
 The Livetext mod must be activated to use this mod.
-There are two types of signs in this mod: 1. Station name sign 2. Combined text sign
+There are two types of signs in this mod: 1. Station name sign 2. Combined text sign, you can find them in the depot menu.
 
 Usage:
 1. Station Name Sign
@@ -42,6 +42,10 @@ Attention: not all glyphs are present in DIN 1451 font
 To extend the charset to other languages or other fonts, for example CJK, a generator will be supplied later for Livetext mod. 
 
 Changelog
+1.3
+* Added strip decoration
+* Added possibilty to have two poles on the sides
+* Unlocked bold style for DIN font
 1.2
 * Fixed crash when there's no station close to the sign
 * Fixed crash when there're more than one station close to the sign
@@ -87,6 +91,13 @@ function data()
             ["Azur"] = "Azure",
             ["Black"] = "Noir",
             ["Text"] = "Script",
+            ["Strip"] = "Bande",
+            ["Decoration"] = "Décoration",
+            ["Decoration Color"] = "Couleur de déco",
+            ["Pole Count"] = "Nombre de pôle",
+            ["Single"] = "Simple",
+            ["Double"] = "Double",
+            ["None"] = "Aucun",
             ["Track Snapping"] = "Voie d'aide magnétique"
         },
         zh_CN = {
@@ -117,6 +128,54 @@ function data()
             ["Azur"] = "天蓝",
             ["Black"] = "黑色",
             ["Text"] = "文字",
+            ["Station Name Sign"] = "站台牌",
+            ["Strip"] = "色带",
+            ["Decoration"] = "装饰",
+            ["Decoration Color"] = "装饰颜色",
+            ["Pole Count"] = "支撑杆数量",
+            ["Single"] = "单",
+            ["Double"] = "双",
+            ["None"] = "无",
+            ["Combined Signs"] = "组合指示牌"
+        },
+        zh_TW = {
+            ["name"] = "站台牌",
+            ["desc"] = desc_EN,
+            ["Font"] = "字體",
+            ["Text Weight"] = "字重",
+            ["Upper case"] = "全大寫",
+            ["Outline"] = "外廓線",
+            ["Pole Type"] = "支撐桿類型",
+            ["Sign Color"] = "站牌顏色",
+            ["Text Color"] = "文字顏色",
+            ["Outline Color"] = "外廓線顏色",
+            ["Distance to track"] = "到輔助軌道距離",
+            ["Height Adjustment"] = "高度調整",
+            ["Offset Adjustment"] = "平移調整",
+            ["Orientation"] = "指向",
+            ["Track Snapping"] = "輔助吸附軌道",
+            ["Default"] = "默認",
+            ["Regular"] = "普通",
+            ["Bold"] = "粗體",
+            ["Cylinder"] = "圓柱",
+            ["Prism"] = "方柱",
+            ["No Pole"] = "無",
+            ["White"] = "白色",
+            ["D.Blue"] = "海藍",
+            ["Blue"] = "藍色",
+            ["Azur"] = "天藍",
+            ["Black"] = "黑色",
+            ["Text"] = "文字",
+            ["Station Name Sign"] = "站台牌",
+            ["Strip"] = "色帶",
+            ["Decoration"] = "裝飾",
+            ["Decoration Color"] = "裝飾顏色",
+            ["Pole Count"] = "支撐桿數量",
+            ["Single"] = "單",
+            ["Double"] = "雙",
+            ["None"] = "無",
+            ["Combined Signs"] = "組合指示牌",
+            ["Strip Color"] = "色带颜色"
         }
     }
 end

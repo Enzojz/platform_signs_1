@@ -20,7 +20,7 @@ function data()
         order = 27226,
         skipCollision = true,
         autoRemovable = false,
-        params = ps.params(),
+        params = pipe.new * ps.params() * pipe.filter(function(p) return not func.contains({"size", "textSize", "poleCount"}, p.key) end),
         updateFn = function(params)
             local params = ps.defaultParams(params)
             local result = game.config.construction["platform_signs/combined_signs_asset.con"](func.with(params, {texts = {{"?", "?"}}}))

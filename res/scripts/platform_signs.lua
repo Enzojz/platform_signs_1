@@ -25,16 +25,10 @@ ps.params = function()
             defaultIndex = 0
         },
         {
-            key = "outline",
-            name = _("Outline"),
-            values = {_("No"), _("Yes")},
+            key = "deco",
+            name = _("Decoration"),
+            values = {_("None"), _("Outline"), _("Strip")},
             defaultIndex = 0
-        },
-        {
-            key = "poleType",
-            name = _("Pole Type"),
-            values = {_("Cylinder"), _("Prism"), _("No Pole")},
-            defaultIndex = 1
         },
         {
             key = "signColor",
@@ -49,10 +43,22 @@ ps.params = function()
             defaultIndex = 3
         },
         {
-            key = "outlineColor",
-            name = _("Outline Color"),
+            key = "decoColor",
+            name = _("Decoration Color"),
             values = {_("White"), _("D.Blue"), _("Blue"), _("Azur"), _("Black"), _("Text")},
             defaultIndex = 5
+        },
+        {
+            key = "poleType",
+            name = _("Pole Type"),
+            values = {_("Cylinder"), _("Prism"), _("No Pole")},
+            defaultIndex = 1
+        },
+        {
+            key = "poleCount",
+            name = _("Pole Count"),
+            values = {_("Single"), _("Double"), _("No Pole")},
+            defaultIndex = 0
         },
         {
             key = "distanceSign",
