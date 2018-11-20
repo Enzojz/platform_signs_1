@@ -42,6 +42,9 @@ Attention: not all glyphs are present in DIN 1451 font
 To extend the charset to other languages or other fonts, for example CJK, a generator will be supplied later for Livetext mod. 
 
 Changelog
+1.4
+* Added text option in strip decoration
+* Order change to avoid mixed with Track Design Patterns
 1.3
 * Added strip decoration
 * Added possibilty to have two poles on the sides

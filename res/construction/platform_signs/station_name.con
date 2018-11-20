@@ -17,7 +17,7 @@ function data()
             yearFrom = 0,
             yearTo = 0,
         },
-        order = 27225,
+        order = 27235,
         skipCollision = true,
         autoRemovable = false,
         params = ps.params(),

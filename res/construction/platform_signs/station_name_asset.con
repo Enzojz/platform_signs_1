@@ -36,6 +36,14 @@ local decoColorList = {
     "C000000"
 }
 
+local remarkColorList = {
+    "C000000",
+    "CF2F2F2",
+    "CF2F2F2",
+    "CF2F2F2",
+    "CF2F2F2"
+}
+
 local updateFn = function(params)
     local params = ps.defaultParams(params)
     local font = params.font == 1 and "alte_din_1451_mittelschrift" or "lato"
@@ -46,11 +54,15 @@ local updateFn = function(params)
         or fontColorList[params.textColor + 1]
     local decoColor = params.decoColor == 5 and textColor or decoColorList[params.decoColor + 1]
     
-    local stripSize = (params.deco == 2 or params.remark) and 0.1 or 0
-    local stripHeight = (params.deco == 2 or params.remark) and 0.01 or 0
-
+    local stripSize = (params.deco == 2 or (params.remark and params.deco ~= 1)) and 0.1 or 0
+    local stripHeight = (params.deco == 2 or (params.remark and params.deco ~= 1)) and 0.01 or 0
+    local remarkColor = params.deco == 2 and (params.decoColor == 5 and signColor or remarkColorList[params.decoColor + 1]) or textColor
+    
+    local remarktext = livetext(font, params.weight == 1 and "bold", remarkColor)
     local livetext = livetext(font, params.weight == 1 and "bold", textColor)
     local nameModelsF, width = table.unpack({livetext(0.35)(params.text and (params.case == 1 and params.text:upper() or params.text) or "?")} or {})
+    local remarkF = params.remark and #params.remark > 0 and remarktext(0.1)(params.remark)
+    
     local d = (params.distance and ((params.distance + 1) * 0.5 + 2) or 4.5) * (params.distanceSign == 0 and -1 or 1)
     local h = (params.height or 0) * 0.1 * (params.heightSign == 0 and -1 or 1)
     local o = (params.offset or 0) * (({-3, -2, -1, 1, 2, 3})[params.offsetSign + 1])
@@ -79,6 +91,7 @@ local updateFn = function(params)
                 coor.trans(coor.xyz(0, -0.055, stripHeight))
         ) or nil)
         + nameModelsF(function(w) return transBoard * coor.trans(coor.xyz(-0.5 * w, -0.055, (stripHeight + stripSize) * 0.5 + 0.175 * 3 / 4)) end)
+        + ((remarkF and params.deco ~= 1) and remarkF(function(w) return transBoard * coor.trans(coor.xyz(-0.5 * w, -0.065, stripHeight + stripSize / 8)) end) or {})
         + (params.deco == 1
         and {
             newModel("platform_signs/" .. decoColor .. "/platform_signs_outline.mdl",

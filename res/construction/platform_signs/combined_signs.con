@@ -17,7 +17,7 @@ function data()
             yearFrom = 0,
             yearTo = 0,
         },
-        order = 27226,
+        order = 27236,
         skipCollision = true,
         autoRemovable = false,
         params = pipe.new * ps.params() * pipe.filter(function(p) return not func.contains({"size", "textSize", "poleCount"}, p.key) end),
